@@ -2,14 +2,16 @@ var productModal = $("#productModal");
     $(function () {
 
         //JSON data by API call
+        //Javascript call to backend (http call)
         $.get(productListApiUrl, function (response) {
             if(response) {
                 var table = '';
+                //code to run for loop in javascript
                 $.each(response, function(index, product) {
-                    table += '<tr data-id="'+ product.product_id +'" data-name="'+ product.name +'" data-unit="'+ product.uom_id +'" data-price="'+ product.price_per_unit +'">' +
+                    table += '<tr data-id="'+ product.product_id +'" data-name="'+ product.name +'" data-unit="'+ product.unit +'" data-price="'+ product.price_unit +'">' +
                         '<td>'+ product.name +'</td>'+
-                        '<td>'+ product.uom_name +'</td>'+
-                        '<td>'+ product.price_per_unit +'</td>'+
+                        '<td>'+ product.unitName +'</td>'+
+                        '<td>'+ product.price_unit +'</td>'+
                         '<td><span class="btn btn-xs btn-danger delete-product">Delete</span></td></tr>';
                 });
                 $("table").find('tbody').empty().html(table);
@@ -23,8 +25,8 @@ var productModal = $("#productModal");
         var data = $("#productForm").serializeArray();
         var requestPayload = {
             product_name: null,
-            uom_id: null,
-            price_per_unit: null
+            unit: null,
+            price_unit: null
         };
         for (var i=0;i<data.length;++i) {
             var element = data[i];
@@ -33,10 +35,10 @@ var productModal = $("#productModal");
                     requestPayload.product_name = element.value;
                     break;
                 case 'uoms':
-                    requestPayload.uom_id = element.value;
+                    requestPayload.unit = element.value;
                     break;
                 case 'price':
-                    requestPayload.price_per_unit = element.value;
+                    requestPayload.price_unit = element.value;
                     break;
             }
         }
@@ -46,6 +48,7 @@ var productModal = $("#productModal");
     });
 
     $(document).on("click", ".delete-product", function (){
+        //tr-> to get the table row element
         var tr = $(this).closest('tr');
         var data = {
             product_id : tr.data('id')
@@ -68,7 +71,7 @@ var productModal = $("#productModal");
             if(response) {
                 var options = '<option value="">--Select--</option>';
                 $.each(response, function(index, uom) {
-                    options += '<option value="'+ uom.uom_id +'">'+ uom.uom_name +'</option>';
+                    options += '<option value="'+ uom.unit +'">'+ uom.unitName +'</option>';
                 });
                 $("#uoms").empty().html(options);
             }

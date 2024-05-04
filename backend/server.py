@@ -54,6 +54,7 @@ def insert_order():
 
 @app.route('/deleteProduct', methods=['POST'])
 def delete_product():
+    # request.form-> way to supply details from UI to backend
     return_id = products_dao.delete_product(connection, request.form['product_id'])
     response = jsonify({
         'product_id': return_id

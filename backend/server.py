@@ -30,6 +30,13 @@ def get_products():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
+@app.route("/getProductById/<int:productId>", methods=["GET"])
+def get_product(productId):
+    response = products_dao.get_product(connection,productId)
+    response = jsonify(response)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
 
 @app.route("/insertProduct", methods=["POST"])
 def insert_product():

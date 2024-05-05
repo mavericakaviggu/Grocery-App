@@ -15,6 +15,21 @@ def get_all_products(connection):
         })
     return response
 
+def get_product(connection,productId):
+    cursor = connection.cursor()
+    query = ("select products.name, products.unit, products.price_unit from products where products.product_id=%s")
+    cursor.execute(query,(productId,))
+    response = []
+    for (name, unit, price_unit) in cursor:
+        response.append({
+            'name': name,
+            'unit': unit,
+            'price_unit': price_unit
+        })
+    return response
+
+
+
 def insert_new_product(connection, product):
     cursor = connection.cursor()
     query = ("INSERT INTO products "

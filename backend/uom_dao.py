@@ -1,4 +1,5 @@
 def get_uoms(connection):
+    # creates a cursor object using the cursor() method of the database connection.
     cursor = connection.cursor()
     query = "select * from grocery_store.unit_table"
     cursor.execute(query)
